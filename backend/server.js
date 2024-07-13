@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -11,6 +12,8 @@ import connectToMongoDB from "./db/connectToMongoDB.js";
 //
 dotenv.config();
 
+const __dirname = path.resolve();
+
 //MIDDLEWARES
 app.use(express.json()); //parse incoming req for req body
 app.use(cookieParser()); //parses incoming cookie
@@ -19,6 +22,11 @@ app.use(cookieParser()); //parses incoming cookie
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/users", userRouter);
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 
 //SERVER
 const PORT = process.env.PORT || 5000;
