@@ -6,7 +6,7 @@ import authRouter from "./routes/auth.routes.js";
 import messageRouter from "./routes/message.routes.js";
 import userRouter from "./routes/user.routes.js";
 import { app, server, io } from "./socket/socket.js";
-
+import cors from "cors";
 import connectToMongoDB from "./db/connectToMongoDB.js";
 
 //
@@ -15,6 +15,7 @@ dotenv.config();
 const __dirname = path.resolve();
 
 //MIDDLEWARES
+app.use(cors());
 app.use(express.json()); //parse incoming req for req body
 app.use(cookieParser()); //parses incoming cookie
 
